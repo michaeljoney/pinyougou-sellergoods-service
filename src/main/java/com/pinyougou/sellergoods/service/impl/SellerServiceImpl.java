@@ -1,7 +1,4 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.Date;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -10,8 +7,11 @@ import com.pinyougou.pojo.TbSeller;
 import com.pinyougou.pojo.TbSellerExample;
 import com.pinyougou.pojo.TbSellerExample.Criteria;
 import com.pinyougou.sellergoods.service.SellerService;
-
 import entity.PageResult;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 服务实现层
@@ -47,7 +47,7 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	@Override
 	public void add(TbSeller seller) {
-		seller.setStatus("0");	//状态
+		seller.setStatus("0");	//状态,默认未审核
 		seller.setCreateTime(new Date());	//申请时间
 		sellerMapper.insert(seller);		
 	}
@@ -90,7 +90,7 @@ public class SellerServiceImpl implements SellerService {
 		Criteria criteria = example.createCriteria();
 		
 		if(seller!=null){			
-						if(seller.getSellerId()!=null && seller.getSellerId().length()>0){
+			if(seller.getSellerId()!=null && seller.getSellerId().length()>0){
 				criteria.andSellerIdLike("%"+seller.getSellerId()+"%");
 			}
 			if(seller.getName()!=null && seller.getName().length()>0){
